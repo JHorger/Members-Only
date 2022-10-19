@@ -1,2 +1,14 @@
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+<h1>All Posts</h1>
+
+<ul>
+    <li>
+        <% if (logger === true) %>
+            <%= render user %>
+        <% else %>
+            <p>You must be logged in to see the author!</p>
+        <% end %>
+        <%= render @posts %>
+    </li>
+</ul>
+
+<%= link_to "New Post", new_post_path %>
