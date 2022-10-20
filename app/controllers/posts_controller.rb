@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   # before_action :authenticate_user!, except: [:index]
+  before_action :require_login, only: [:new, :create]
 
   def index
     @posts = Post.all
@@ -15,10 +16,10 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user_id = current_user
+    @post.user = current_user
     
     if @post.save
-      redirect_to root_path, notice: "Post was successfully created!"
+      redirect_to root_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +27,13 @@ class PostsController < ApplicationController
 
   private
 
+  def require_login
+    unless user_signed_in?
+      redirect_to new_user_registration_path
+    end
+  end
+
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :user_id)
   end
 end

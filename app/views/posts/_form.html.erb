@@ -1,6 +1,8 @@
 <%= form_with model: post do |form| %>
     <div>
-        <%# <%= render current_user %>
+        <h3>
+            <%= user_signed_in? ? post.user.email : "Anonymous" %>
+        </h3>
     </div>
 
     <div>
